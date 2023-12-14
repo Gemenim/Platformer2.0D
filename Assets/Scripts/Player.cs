@@ -14,13 +14,18 @@ public class Player : MonoBehaviour
 
     public float Damage => _damage;
 
-    private void Awake()
+    private void OnValidate()
     {
         if (_maxHealth < 50)
             _maxHealth = 50;
+
         if (_damage < 1)
             _damage = 1;
 
+    }
+
+    private void Awake()
+    {
         _health = _maxHealth;
     }
 

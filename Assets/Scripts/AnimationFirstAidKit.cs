@@ -14,7 +14,7 @@ public class AnimationFirstAidKit : MonoBehaviour
     private Vector3 _endSize = new Vector3(1, 1, 1);
     private Color _color = Color.red;
 
-    private void Awake()
+    private void OnValidate()
     {
         if (_minRateChange < 1)
             _minRateChange = 1.0f;

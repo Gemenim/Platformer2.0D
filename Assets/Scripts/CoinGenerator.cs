@@ -15,7 +15,7 @@ public class CoinGenerator : MonoBehaviour
     private float _minPositionX = -7.0f;
     private float _minPositionY = -2.4f;
 
-    private void Awake()
+    private void OnValidate()
     {
         if (_minCountCoins < 1)
             _minCountCoins = 1;

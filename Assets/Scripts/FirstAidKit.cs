@@ -11,7 +11,7 @@ public class FirstAidKit : MonoBehaviour
 
     public float MaxHealth => _maxHealth;
 
-    private void Awake()
+    private void OnValidate()
     {
         if (_minHealth < 1)
             _minHealth = 1.0f;
