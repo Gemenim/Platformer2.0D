@@ -9,7 +9,7 @@ public class CoinGenerator : MonoBehaviour
     [SerializeField] private int _maxCountCoins;
     [SerializeField] private int _minCountCoins = 1;
 
-    private Coin[] _coins;
+    private List<Coin> _coins = new List<Coin>();
     private float _maxPositionX = 7.0f;
     private float _maxPositionY = 4.0f;
     private float _minPositionX = -7.0f;
@@ -23,9 +23,7 @@ public class CoinGenerator : MonoBehaviour
 
     private void Update()
     {
-        _coins = GameObject.FindObjectsOfType<Coin>();
-
-        if (_coins.Length == 0)
+        if (_coins.Count == 0)
         {
             int randomCountCoin = Random.Range(_minCountCoins, _maxCountCoins);
 
@@ -34,8 +32,15 @@ public class CoinGenerator : MonoBehaviour
                 float randomPositionX = Random.Range(_minPositionX, _maxPositionX);
                 float randomPositionY = Random.Range(_minPositionY, _maxPositionY);
                 Vector3 position = new Vector3(randomPositionX, randomPositionY, 0);
-                Instantiate(_coin, position, Quaternion.identity);
+                Coin coin = Instantiate(_coin, position, Quaternion.identity);
+                coin.GetCoinGenerator(this);
+                _coins.Add(coin);
             }
         }
+    }
+
+    public void RemoveCoin(Coin coin)
+    {
+        _coins.Remove(coin);
     }
 }

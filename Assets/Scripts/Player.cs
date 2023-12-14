@@ -34,15 +34,6 @@ public class Player : MonoBehaviour
         _wallet = GetComponent<Wallet>();
     }
 
-    private void Update()
-    {
-        if (_health > _maxHealth)
-            _health = _maxHealth;
-
-        if (_health <= 0)
-            Destroy(gameObject);
-    }
-
     public void GetDamage(float damage)
     {
         if (_wallet.Coins.Count > 0)
@@ -52,11 +43,17 @@ public class Player : MonoBehaviour
         }
         else
             _health -= damage;
+
+        if (_health <= 0)
+            Destroy(gameObject);
     }
 
     public void GetTreatment(float health)
     {
         if (_health < _maxHealth)
             _health += health;
+
+        if (_health > _maxHealth)
+            _health = _maxHealth;
     }
 }

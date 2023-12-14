@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(FirstAidKit))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class AnimationFirstAidKit : MonoBehaviour
 {
     [SerializeField] private float _minRateChange = 1.0f;

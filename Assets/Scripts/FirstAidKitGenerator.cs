@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FirstAidKitGenerator : MonoBehaviour
@@ -7,33 +8,43 @@ public class FirstAidKitGenerator : MonoBehaviour
     [SerializeField] private FirstAidKit _firstAidKit;
     [SerializeField] private float _cooldown;
 
-    private FirstAidKit[] _firstAidKits;
+    private List<FirstAidKit> _firstAidKits = new List<FirstAidKit>();
     private float _maxPositionX = 7.0f;
     private float _maxPositionY = 4.0f;
     private float _minPositionX = -7.0f;
     private float _minPositionY = -2.4f;
+    private bool _isCooldown = true;
 
-    private void Start()
+    private void Update()
     {
-        StartCoroutine(CreatFirstAidKit());
+        if (_firstAidKits.Count == 0 && _isCooldown)
+        {
+            float randomPositionX = Random.Range(_minPositionX, _maxPositionX);
+            float randomPositionY = Random.Range(_minPositionY, _maxPositionY);
+            Vector3 position = new Vector3(randomPositionX, randomPositionY, 0);
+            FirstAidKit firstAidKit = Instantiate(_firstAidKit, position, Quaternion.identity);
+            firstAidKit.GetFirstAidKitGenerator(this);
+            _firstAidKits.Add(firstAidKit);
+            _isCooldown = false;
+        }
     }
 
-    private IEnumerator CreatFirstAidKit()
+    private IEnumerator CountDownCooldown()
     {
-        while(true)
+        var cooldown = new WaitForSeconds(1);
+
+        for (int i = 0; i <= _cooldown; i ++)
         {
-            _firstAidKits = GameObject.FindObjectsOfType<FirstAidKit>();
+            if(i >= _cooldown)
+                _isCooldown = true;
 
-            if (_firstAidKits.Length == 0)
-            {
-                float randomPositionX = Random.Range(_minPositionX, _maxPositionX);
-                float randomPositionY = Random.Range(_minPositionY, _maxPositionY);
-                Vector3 position = new Vector3(randomPositionX, randomPositionY, 0);
-                Instantiate(_firstAidKit, position, Quaternion.identity);
-            }
-
-            var cooldown = new WaitForSeconds(_cooldown);
             yield return cooldown;
         }
+    }
+
+    public void RemoveFirstAidKit(FirstAidKit firstAidKit)
+    {
+        _firstAidKits.Remove(firstAidKit);
+        var coroutine = StartCoroutine(CountDownCooldown());
     }
 }

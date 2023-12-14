@@ -7,6 +7,7 @@ public class FirstAidKit : MonoBehaviour
     [SerializeField] private float _minHealth = 1.0f;
     [SerializeField] private float _maxHealth = 10.0f;
 
+    private FirstAidKitGenerator _generator;
     private float _health;
 
     public float MaxHealth => _maxHealth;
@@ -25,8 +26,14 @@ public class FirstAidKit : MonoBehaviour
         if (collision.TryGetComponent<Player>(out Player player))
         {
             player.GetTreatment(_health);
+            _generator.RemoveFirstAidKit(this);
             Destroy(gameObject);
         }
+    }
+
+    public void GetFirstAidKitGenerator(FirstAidKitGenerator firstAidKitGenerator)
+    {
+        _generator = firstAidKitGenerator;
     }
 
     public void IncreaseVolumeHealth(float health)
