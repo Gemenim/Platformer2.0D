@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,8 @@ public class MoverPlayer : MonoBehaviour
     private bool _isJump = false;
     private string _moverTrigger = "Mover";
 
+    public Action UsingAbility;
+
     private void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -34,6 +37,9 @@ public class MoverPlayer : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W) && _isJump == false)
             _isJump = true;
+
+        if (Input.GetKey(KeyCode.Alpha1))
+            UsingAbility?.Invoke();
     }
 
     private void FixedUpdate()
