@@ -13,9 +13,7 @@ public class Player : MonoBehaviour
     private Health _health;
     private Wallet _wallet;
 
-    public Action HitEnemy;
-    public Action Treatment;
-
+    public Health Health => _health;
     public float Damage => _damage;
 
     private void Awake()

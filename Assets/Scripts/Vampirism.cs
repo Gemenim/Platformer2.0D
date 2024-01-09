@@ -12,7 +12,6 @@ public class Vampirism : MonoBehaviour
 
     private MoverPlayer _moverPlayer;
     private CircleCollider2D _collider2D;
-    private Health _health;
     private float _timeOut = 1;
     private int _counter;
     private bool _abilityActiv = false;
@@ -21,7 +20,6 @@ public class Vampirism : MonoBehaviour
     private void Awake()
     {
         _moverPlayer = _player.GetComponent<MoverPlayer>();
-        _health = _player.GetComponent<Health>();
         _collider2D = GetComponent<CircleCollider2D>();
         _counter = _duration;
         _collider2D.radius = _radius;
@@ -44,15 +42,15 @@ public class Vampirism : MonoBehaviour
 
     private void OnEnable()
     {
-        _moverPlayer.UsingAbility += StartActivateAbility;
+        _moverPlayer.UsingAbility += OnActivateAbility;
     }
 
     private void OnDisable()
     {
-        _moverPlayer.UsingAbility -= StartActivateAbility;
+        _moverPlayer.UsingAbility -= OnActivateAbility;
     }
 
-    private void StartActivateAbility()
+    private void OnActivateAbility()
     {
         StartCoroutine(ActivateAbility());
     }
@@ -65,7 +63,7 @@ public class Vampirism : MonoBehaviour
 
         while (_counter != 0)
         {
-            _counter -= 1;
+            _counter --;
 
             if (_counter == 0)
             {
@@ -85,7 +83,7 @@ public class Vampirism : MonoBehaviour
         {
             counter++;
             health.TakeDamage(_powerAbility);
-            _health.TakeTreatment(_powerAbility);
+            _player.Health.TakeTreatment(_powerAbility);
             yield return timeOut;
         }
     }
